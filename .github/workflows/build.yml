@@ -25,12 +25,4 @@ jobs:
         uses: actions/upload-artifact@v1.0.0
         with:
           name: publishRelease
-          path: Src\GHActionsCI\bin\Release\  
-      
-      - name: Upload ftp
-        uses: sebastianpopp/ftp-action@releases/v2
-        with:
-          host: ftp://ftp.dlptest.com/
-          user: dlpuser@dlptest.com
-          password: eUj8GeW55SvYaswqUyDSm5v6N  
-          localDir: Src\GHActionsCI\bin\Release\
+          path: Src\GHActionsCI\bin\Release\
