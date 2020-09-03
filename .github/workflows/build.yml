@@ -34,4 +34,3 @@ jobs:
           user: dlpuser@dlptest.com
           password: eUj8GeW55SvYaswqUyDSm5v6N  
           localDir: Src\GHActionsCI\bin\Release\
-          remoteDir: 
