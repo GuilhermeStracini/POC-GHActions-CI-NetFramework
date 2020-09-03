@@ -1,0 +1,21 @@
+name: Deploy via ftp
+on: 
+  workflow_run:
+    workflows: ["build"]
+    branches: ["master"]
+    types: 
+      - completed
+  workflow_dispatch:
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Upload ftp
+        uses: sebastianpopp/ftp-action@releases/v2
+        with:
+          host: ftp://ftp.dlptest.com/
+          user: dlpuser@dlptest.com
+          password: eUj8GeW55SvYaswqUyDSm5v6N  
+          localDir: Src\GHActionsCI\bin\Release\
