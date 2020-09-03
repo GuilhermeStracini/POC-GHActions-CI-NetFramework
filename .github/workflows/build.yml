@@ -26,10 +26,12 @@ jobs:
         with:
           name: publishRelease
           path: Src\GHActionsCI\bin\Release\  
-          
-      - name: Upload to FTP
-        uses: SamKirkland/FTP-Deploy-Action@3.1.1
+      
+      - name: Upload ftp
+        uses: sebastianpopp/ftp-action@releases/v2
         with:
-          ftp-server: ftp://ftp.dlptest.com/
-          ftp-username: dlpuser@dlptest.com
-          ftp-password: eUj8GeW55SvYaswqUyDSm5v6N  
+          host: ftp://ftp.dlptest.com/
+          user: dlpuser@dlptest.com
+          password: eUj8GeW55SvYaswqUyDSm5v6N  
+          localDir: "Src\GHActionsCI\bin\Release\ "
+          remoteDir: ""
