@@ -33,5 +33,5 @@ jobs:
           host: ftp://ftp.dlptest.com/
           user: dlpuser@dlptest.com
           password: eUj8GeW55SvYaswqUyDSm5v6N  
-          localDir: "Src\GHActionsCI\bin\Release\ "
-          remoteDir: ""
+          localDir: Src\GHActionsCI\bin\Release\
+          remoteDir: 
