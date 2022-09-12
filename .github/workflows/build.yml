@@ -45,5 +45,5 @@ jobs:
         uses: sebastianpopp/ftp-action@releases/v2
         with:
           host: ftp://ftp.dlptest.com/
-          user: dlpuser@dlptest.com
-          password: eUj8GeW55SvYaswqUyDSm5v6N
+          user: dlpuser
+          password: rNrKYTX9g7z3RgJRmxWuGHbeu
