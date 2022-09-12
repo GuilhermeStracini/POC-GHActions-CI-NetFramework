@@ -12,6 +12,8 @@ jobs:
             
       - name: Setup MSBuild Path
         uses: warrenbuckley/Setup-MSBuild@v1
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
     
       - name: Setup Nuget
         uses: NuGet/setup-nuget@v1.0.2
@@ -19,9 +21,7 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         
       - name: Restore NuGet Packages
-        run: nuget restore GHActionsCI.sln
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        run: nuget restore GHActionsCI.sln       
       
       - name: Build
         run: msbuild GHActionsCI.sln /p:Configuration=Release
