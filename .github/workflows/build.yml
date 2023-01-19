@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
             
       - name: Setup MSBuild Path
         uses: warrenbuckley/Setup-MSBuild@v1
@@ -16,7 +16,7 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
     
       - name: Setup Nuget
-        uses: NuGet/setup-nuget@v1.0.2
+        uses: NuGet/setup-nuget@v1.1.1
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download release
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: release
       - name: Upload ftp
