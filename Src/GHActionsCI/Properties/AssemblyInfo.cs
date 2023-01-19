@@ -1,4 +1,17 @@
-﻿using System.Reflection;
+﻿// ***********************************************************************
+// Assembly         : GHActionsCI
+// Author           : Guilherme Branco Stracini
+// Created          : 19/01/2023
+//
+// Last Modified By : Guilherme Branco Stracini
+// Last Modified On : 19/01/2023
+// ***********************************************************************
+// <copyright file="AssemblyInfo.cs" company="Guilherme Branco Stracini ME">
+//     Copyright ©  2020
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following

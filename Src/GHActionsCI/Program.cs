@@ -1,18 +1,38 @@
-﻿using CrispyWaffle.Composition;
-using CrispyWaffle.Log;
-using CrispyWaffle.Log.Adapters;
-using CrispyWaffle.Log.Handlers;
-using CrispyWaffle.Log.Providers;
-using System;
-
+﻿// ***********************************************************************
+// Assembly         : GHActionsCI
+// Author           : Guilherme Branco Stracini
+// Created          : 19/01/2023
+//
+// Last Modified By : Guilherme Branco Stracini
+// Last Modified On : 19/01/2023
+// ***********************************************************************
+// <copyright file="Program.cs" company="Guilherme Branco Stracini ME">
+//     Copyright ©  2020
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 namespace GHActionsCI
 {
+    using System;
+    using CrispyWaffle.Composition;
+    using CrispyWaffle.Log;
+    using CrispyWaffle.Log.Adapters;
+    using CrispyWaffle.Log.Handlers;
+    using CrispyWaffle.Log.Providers;
+
+    /// <summary>
+    /// Class Program.
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// Defines the entry point of the application.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
         static void Main(string[] args)
         {
-            ServiceLocator.Register<IConsoleLogAdapter, StandardConsoleLogAdapter>(LifeStyle.SINGLETON);
-            ServiceLocator.Register<IExceptionHandler, NullExceptionHandler>(LifeStyle.SINGLETON);
+            ServiceLocator.Register<IConsoleLogAdapter, StandardConsoleLogAdapter>(LifeStyle.Singleton);
+            ServiceLocator.Register<IExceptionHandler, NullExceptionHandler>(LifeStyle.Singleton);
 
             LogConsumer.AddProvider<ConsoleLogProvider>();
 
