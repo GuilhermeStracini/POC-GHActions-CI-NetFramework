@@ -27,7 +27,7 @@ jobs:
         run: msbuild GHActionsCI.sln /p:Configuration=Release
       
       - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: release
           path: Src\GHActionsCI\bin\Release\
