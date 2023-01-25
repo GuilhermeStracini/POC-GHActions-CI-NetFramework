@@ -25,6 +25,9 @@ jobs:
       
       - name: Build
         run: msbuild GHActionsCI.sln /p:Configuration=Release
+
+      - name: Run
+        run: GHActionsCI.exe
       
       - name: Upload artifact
         uses: actions/upload-artifact@v3.1.2
@@ -41,7 +44,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: release
-      - name: Upload ftp
+
+      - name: Upload to test FTP
         uses: sebastianpopp/ftp-action@releases/v2
         with:
           host: ftp://ftp.dlptest.com/

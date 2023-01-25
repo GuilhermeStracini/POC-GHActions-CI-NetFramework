@@ -4,16 +4,15 @@
 // Created          : 19/01/2023
 //
 // Last Modified By : Guilherme Branco Stracini
-// Last Modified On : 19/01/2023
+// Last Modified On : 25/01/2023
 // ***********************************************************************
 // <copyright file="Program.cs" company="Guilherme Branco Stracini ME">
-//     Copyright ©  2020
+//     Copyright © 2020
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 namespace GHActionsCI
 {
-    using System;
     using CrispyWaffle.Composition;
     using CrispyWaffle.Log;
     using CrispyWaffle.Log.Adapters;
@@ -23,13 +22,13 @@ namespace GHActionsCI
     /// <summary>
     /// Class Program.
     /// </summary>
-    class Program
+    internal class Program
     {
         /// <summary>
         /// Defines the entry point of the application.
         /// </summary>
         /// <param name="args">The arguments.</param>
-        static void Main(string[] args)
+        protected static void Main(string[] args)
         {
             ServiceLocator.Register<IConsoleLogAdapter, StandardConsoleLogAdapter>(LifeStyle.Singleton);
             ServiceLocator.Register<IExceptionHandler, NullExceptionHandler>(LifeStyle.Singleton);
@@ -43,10 +42,7 @@ namespace GHActionsCI
             foreach (var arg in args)
             {
                 LogConsumer.Info("Arg: {0}", arg);
-
             }
-
-            Console.ReadKey();
         }
     }
 }
