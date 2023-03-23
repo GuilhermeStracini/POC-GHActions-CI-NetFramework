@@ -23,14 +23,6 @@ namespace GHActionsCI.UnitTests
     public class Tests
     {
         /// <summary>
-        /// Setups this instance.
-        /// </summary>
-        [SetUp]
-        public void Setup()
-        {
-        }
-
-        /// <summary>
         /// Defines the test method Test1.
         /// </summary>
         [Test]
