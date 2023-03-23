@@ -1,4 +1,4 @@
-name: CI
+name: Build & Test .NET Framework
 on: [push,  workflow_dispatch]
 
 concurrency: 
@@ -61,6 +61,7 @@ jobs:
           host: ftp://ftp.dlptest.com/
           user: dlpuser
           password: rNrKYTX9g7z3RgJRmxWuGHbeu
+
   cleanup:
     name: Cleanup
     needs: create_release
