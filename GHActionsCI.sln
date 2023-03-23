@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHActionsCI", "Src\GHAction
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{7AF068C1-192E-4D58-B5BF-A752CB4E56D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHActionsCI.UnitTest", "Test\GHActionsCI.UnitTest\GHActionsCI.UnitTest.csproj", "{AEEF0C94-BBB9-4CBA-B7E9-C36A37CCC97D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHActionsCI.UnitTestS", "Test\GHActionsCI.UnitTestS\GHActionsCI.UnitTestS.csproj", "{AEEF0C94-BBB9-4CBA-B7E9-C36A37CCC97D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
