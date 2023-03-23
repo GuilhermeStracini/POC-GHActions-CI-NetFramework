@@ -1,17 +1,17 @@
 // ***********************************************************************
-// Assembly         : GHActionsCI.UnitTest
+// Assembly         : GHActionsCI.UnitTests
 // Author           : Guilherme Branco Stracini
 // Created          : 23/03/2023
 //
 // Last Modified By : Guilherme Branco Stracini
 // Last Modified On : 23/03/2023
 // ***********************************************************************
-// <copyright file="SampleClassTests.cs" company="GHActionsCI.UnitTest">
+// <copyright file="SampleClassTests.cs" company="GHActionsCI.UnitTests">
 //     Copyright (c) Guilherme Branco Stracini ME. All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-namespace GHActionsCI.UnitTest
+namespace GHActionsCI.UnitTests
 {
     using System;
     using NUnit.Framework;
