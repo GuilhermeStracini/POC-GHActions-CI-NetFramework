@@ -64,7 +64,7 @@ jobs:
 
   cleanup:
     name: Cleanup
-    needs: create_release
+    needs: deploy
     runs-on: ubuntu-latest
     steps:
       - name: Remove artifacts
