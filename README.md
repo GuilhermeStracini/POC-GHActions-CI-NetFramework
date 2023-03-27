@@ -10,8 +10,8 @@
 
 This repository is an example on .NET Framework project/solution using GitHub Actions to:
 
--  Build
--  Test
--  Analyse (Sonar Cloud)
--  Upload artifacts via FTP
--  etc
+  - Build
+  - Test
+  - Analyse (Sonar Cloud)
+  - Upload artifacts via FTP
+  - etc
