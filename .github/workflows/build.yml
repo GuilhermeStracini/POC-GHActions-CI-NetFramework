@@ -25,8 +25,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
         
-      - name: Test Redis
-        run: redis-cli.exe ping
+      - name: List files
+        run: ls
+        
+      - name: Ping Redis
+        run: ./redis-cli.exe ping
                     
       - name: Setup MSBuild Path
         uses: microsoft/setup-msbuild@v1.3
