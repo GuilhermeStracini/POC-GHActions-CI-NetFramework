@@ -18,12 +18,13 @@ jobs:
   build:
     name: Build
     runs-on: windows-latest
+    needs: setup_redis
 
     steps:
     
       - name: Checkout Code
         uses: actions/checkout@v3
-            
+                    
       - name: Setup MSBuild Path
         uses: microsoft/setup-msbuild@v1.3
         env:
