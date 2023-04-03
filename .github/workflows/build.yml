@@ -11,6 +11,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Redis Server in GitHub Actions
+        uses: supercharge/redis-github-action@1.5.0
+     
       - name: Checkout Code
         uses: actions/checkout@v3
             
