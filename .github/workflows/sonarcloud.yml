@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 19.0.2+7  
+          java-version: 19.0.2+7
 
       - uses: actions/checkout@v3
         with:
@@ -52,7 +52,7 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
       - name: Setup Nuget
-        uses: nuget/setup-nuget@v1    
+        uses: nuget/setup-nuget@v1
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
