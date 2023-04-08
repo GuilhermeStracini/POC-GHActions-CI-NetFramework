@@ -5,30 +5,30 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
-    
+
 jobs:
   build:
     name: Build and analyze
     runs-on: windows-latest
-    
+
     steps:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 19.0.2+7  
-          
+
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          
+
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
           path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-          
+
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
         uses: actions/cache@v3
@@ -36,29 +36,29 @@ jobs:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
-          
+
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-          
+
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v1.3
         with:
           msbuild-architecture: x64
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-          
+
       - name: Setup Nuget
         uses: nuget/setup-nuget@v1    
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-         
+
       - name: Restore NuGet packages
         run: nuget restore GHACtionsCI.sln
-      
+
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
