@@ -19,7 +19,8 @@ jobs:
         id: test
         run: |
           echo "127.0.0.1" > Ip.txt
-          type Ip.txt                    
+          echo "ip=type Ip.txt" >> $GITHUB_ENV
+          echo "${{ env.ip }}"
       - name: Use ip
         run: |
           echo "${{ env.ip }}"
