@@ -22,6 +22,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set solution name
+        run: |
+          echo "solution=$(([io.fileinfo]$(Get-ChildItem -Path .\* -Include *.sln)).name)" | Out-File -FilePath $env:GITHUB_ENV -Append
+
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
@@ -57,7 +61,7 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
       - name: Restore NuGet packages
-        run: nuget restore GHACtionsCI.sln
+        run: nuget restore ${{ env.solution }}
 
       - name: Build and analyze
         env:
@@ -65,6 +69,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"GuilhermeStracini_POC-GHActions-CI-NetFramework" /o:"guilhermestracini" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          msbuild GHActionsCI.sln /p:Configuration=Release
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"${GITHUB_REPOSITORY#*/}_${GITHUB_REPOSITORY%/*}" /o:"${GITHUB_REPOSITORY#*/}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          msbuild ${{ env.solution }} /p:Configuration=Release
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
