@@ -19,12 +19,14 @@ jobs:
         id: test
         run: |
           echo "127.0.0.1" > Ip.txt
-          echo "::set-output ip=$(type Ip.txt)"
+          ip=$(type Ip.txt)
+          echo $ip
+          echo "ip=$ip" >> $GITHUB_ENV
           
       - name: Use ip
         run: |
-          echo "${{ steps.test.outputs.ip }}"
-          ping ${{ steps.test.outputs.ip }} -n 5
+          echo "${{ $env.ip }}"
+          ping ${{ $env.ip }} -n 5
 
       - name: Setup MSBuild Path
         uses: microsoft/setup-msbuild@v1.3
