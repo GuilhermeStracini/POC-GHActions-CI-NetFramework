@@ -22,9 +22,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set solution name
+      - name: Set environment variables
         run: |
           echo "solution=$(([io.fileinfo]$(Get-ChildItem -Path .\* -Include *.sln)).name)" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "sonar_key=$(${{ GITHUB_REPOSITORY }}" -replace "/","_") | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
@@ -71,6 +72,6 @@ jobs:
         run: |
           echo ${{ GITHUB_REPOSITORY#*/ }}
           echo ${{ GITHUB_REPOSITORY%/* }}
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"${{ GITHUB_REPOSITORY#*/ }}_${{ GITHUB_REPOSITORY%/* }}" /o:"${{ GITHUB_REPOSITORY#*/ }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"${{ env.sonar_key }}" /o:"${{ GITHUB_REPOSITORY_OWNER }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           msbuild ${{ env.solution }} /p:Configuration=Release
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
