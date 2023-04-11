@@ -69,6 +69,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"${GITHUB_REPOSITORY#*/}_${GITHUB_REPOSITORY%/*}" /o:"${GITHUB_REPOSITORY#*/}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          echo ${{ GITHUB_REPOSITORY#*/ }}
+          echo ${{ GITHUB_REPOSITORY%/* }}
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"${{ GITHUB_REPOSITORY#*/ }}_${{ GITHUB_REPOSITORY%/* }}" /o:"${{ GITHUB_REPOSITORY#*/ }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           msbuild ${{ env.solution }} /p:Configuration=Release
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
