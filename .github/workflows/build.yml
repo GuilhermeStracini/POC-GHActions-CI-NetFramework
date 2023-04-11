@@ -20,7 +20,7 @@ jobs:
         run: |
           echo "127.0.0.1" > Ip.txt
           $ip = Get-Content ip.txt
-          echo $ip
+          echo "ip=$ip" >> $GITHUB_ENV
                     
       - name: Use ip
         run: |
