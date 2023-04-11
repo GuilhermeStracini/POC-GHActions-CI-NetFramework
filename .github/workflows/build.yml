@@ -19,7 +19,7 @@ jobs:
         id: test
         run: |
           echo "127.0.0.1" > Ip.txt
-          ip=$(type Ip.txt)
+          ip=$((type Ip.txt))
           echo $ip
           echo "ip=$ip" >> $GITHUB_ENV
           
