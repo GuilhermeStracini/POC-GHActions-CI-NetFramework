@@ -10,11 +10,11 @@ jobs:
     name: Build
     runs-on: windows-latest
 
-    steps:  
+    steps:
 
       - name: Checkout Code
         uses: actions/checkout@v3
-        
+
       - name: Set value to file and read it
         run: |
           echo "127.0.0.1" > Src/ip.txt
