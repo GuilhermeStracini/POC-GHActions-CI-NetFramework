@@ -25,8 +25,8 @@ jobs:
           
       - name: Use ip
         run: |
-          echo "${{ $env.ip }}"
-          ping ${{ $env.ip }} -n 5
+          echo "${{ env.ip }}"
+          ping ${{ env.ip }} -n 5
 
       - name: Setup MSBuild Path
         uses: microsoft/setup-msbuild@v1.3
