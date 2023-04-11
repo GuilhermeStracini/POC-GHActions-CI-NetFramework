@@ -19,8 +19,9 @@ jobs:
         id: test
         run: |
           echo "127.0.0.1" > Ip.txt
-          echo $(type Ip.txt)
-          
+          set ip=$(type Ip.txt)
+          echo $ip
+                    
       - name: Use ip
         run: |
           echo "${{ env.ip }}"
