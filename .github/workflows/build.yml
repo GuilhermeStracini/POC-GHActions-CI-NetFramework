@@ -1,5 +1,7 @@
 name: Build & Test .NET Framework
-on: [push,  workflow_dispatch]
+on:
+  push:
+  workflow_dispatch:
 
 concurrency: 
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -14,6 +16,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Set solution name
+        run: |
+          echo "solution=$([io.path]::GetFileNameWithoutExtension($(Get-ChildItem -Path .\* -Include *.sln))).sln" | Out-File -FilePath $env:GITHUB_ENV -Append
+
       - name: Set value to file and read it
         run: |
           echo "127.0.0.1" > Src/ip.txt
@@ -21,7 +27,7 @@ jobs:
 
       - name: Use environment variable from file
         run: |
-          echo "${{ env.ip }}"
+          echo "${{ env.solution }}"
           ping ${{ env.ip }} -n 5
 
       - name: Setup MSBuild Path
@@ -41,7 +47,7 @@ jobs:
         run: nuget restore GHActionsCI.sln       
 
       - name: Build
-        run: msbuild GHActionsCI.sln /p:Configuration=Release
+        run: msbuild ${{ env.solution }} /p:Configuration=Release
 
       - name: Test
         run: vstest.console.exe .\Test\GHActionsCI.UnitTests\bin\Release\GHActionsCI.UnitTests.dll
