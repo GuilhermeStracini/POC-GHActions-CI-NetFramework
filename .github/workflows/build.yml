@@ -10,10 +10,20 @@ jobs:
     name: Build
     runs-on: windows-latest
 
-    steps:  
+    steps:
 
       - name: Checkout Code
         uses: actions/checkout@v3
+
+      - name: Set value to file and read it
+        run: |
+          echo "127.0.0.1" > Src/ip.txt
+          echo "ip=$(type Src/ip.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Use environment variable from file
+        run: |
+          echo "${{ env.ip }}"
+          ping ${{ env.ip }} -n 5
 
       - name: Setup MSBuild Path
         uses: microsoft/setup-msbuild@v1.3
