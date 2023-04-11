@@ -18,9 +18,9 @@ jobs:
       - name: Test
         id: test
         run: |
-          echo "127.0.0.1" > Ip.txt
-          echo "ip=127.0.0.1" | Out-File -FilePath $env:GITHUB_ENV -Append
-          echo "${{ env.ip }}"
+          echo "127.0.0.1" > ip.txt
+          echo "ip=$(type ip.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
+
       - name: Use ip
         run: |
           echo "${{ env.ip }}"
