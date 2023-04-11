@@ -18,9 +18,9 @@ jobs:
       - name: Test
         run: |
           echo "127.0.0.1" > Ip.txt
-          set /p Ip=<Ip.txt
-          echo %Ip%
-          ping %Ip% -n 5
+          echo "Ip=<Ip.txt" >> $GITHUB_ENV
+          echo ${{ env.Ip }}
+          ping ${{ env.Ip }} -n 5
 
       - name: Setup MSBuild Path
         uses: microsoft/setup-msbuild@v1.3
