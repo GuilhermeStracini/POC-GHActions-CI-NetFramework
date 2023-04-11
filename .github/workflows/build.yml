@@ -18,7 +18,7 @@ jobs:
       - name: Test
         run: |
           echo "127.0.0.1" > Ip.txt
-          echo "Ip=<Ip.txt" >> $GITHUB_ENV
+          echo "Ip=$(cat Ip.txt)" >> $GITHUB_ENV
           echo "${{ env.Ip }}"
           ping ${{ env.Ip }} -n 5
 
