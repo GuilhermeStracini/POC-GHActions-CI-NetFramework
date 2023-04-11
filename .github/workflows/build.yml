@@ -19,7 +19,7 @@ jobs:
         id: test
         run: |
           echo "127.0.0.1" > Ip.txt
-          echo "ip=yellow" >> $GITHUB_ENV
+          echo "ip=127.0.0.1" | Out-File -FilePath $env:GITHUB_ENV -Append
           echo "${{ env.ip }}"
       - name: Use ip
         run: |
