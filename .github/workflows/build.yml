@@ -19,8 +19,9 @@ jobs:
         id: test
         run: |
           echo "127.0.0.1" > Ip.txt
-          set ip=$(type Ip.txt)
+          set /p ip=<Ip.txt
           echo $ip
+          echo %ip%
                     
       - name: Use ip
         run: |
