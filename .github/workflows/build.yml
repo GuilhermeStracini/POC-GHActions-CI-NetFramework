@@ -19,7 +19,7 @@ jobs:
         run: |
           echo "127.0.0.1" > Ip.txt
           echo "Ip=<Ip.txt" >> $GITHUB_ENV
-          echo ${{ env.Ip }}
+          echo "${{ env.Ip }}"
           ping ${{ env.Ip }} -n 5
 
       - name: Setup MSBuild Path
