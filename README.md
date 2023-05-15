@@ -1,5 +1,6 @@
 # POC GitHub Actions CI pipeline .NET Framework
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/83e6071f81594885a2a7bc450d1adf22)](https://app.codacy.com/gh/GuilhermeStracini/POC-GHActions-CI-NetFramework?utm_source=github.com&utm_medium=referral&utm_content=GuilhermeStracini/POC-GHActions-CI-NetFramework&utm_campaign=Badge_Grade)
 [![wakatime](https://wakatime.com/badge/github/GuilhermeStracini/POC-GHActions-CI-NetFramework.svg)](https://wakatime.com/badge/github/GuilhermeStracini/POC-GHActions-CI-NetFramework)
 [![Build & Test .NET Framework](https://github.com/GuilhermeStracini/POC-GHActions-CI-NetFramework/actions/workflows/build.yml/badge.svg)](https://github.com/GuilhermeStracini/POC-GHActions-CI-NetFramework/actions/workflows/build.yml)
 [![GitHub license](https://img.shields.io/github/license/GuilhermeStracini/POC-GHActions-CI-NetFramework)](https://github.com/GuilhermeStracini/POC-GHActions-CI-NetFramework)
