@@ -1,9 +1,9 @@
 name: Label based on PR size
 
 on:
-  pull_request:  
+  pull_request:
   workflow_dispatch:
-  
+
 jobs:
   size-label:
     runs-on: ubuntu-latest
