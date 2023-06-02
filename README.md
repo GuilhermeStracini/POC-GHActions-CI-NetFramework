@@ -13,12 +13,4 @@
 
 ---
 
-This repository is an example of .NET Framework (4.8) project/solution using GitHub Actions to:
-
--    Build
--    Test
--    Analyse (Sonar Cloud)
--    Analyse (Codacy)
--    Upload artifacts via FTP
-
----
+This repository is an example of .NET Framework (4.8) project/solution using GitHub Actions to: Build, Test, Analyse (SonarCloud, Codacy0, Upload artifacts via FTP.
