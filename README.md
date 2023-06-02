@@ -20,3 +20,5 @@ This repository is an example of .NET Framework (4.8) project/solution using Git
 -  Analyse (Sonar Cloud)
 -  Analyse (Codacy)
 -  Upload artifacts via FTP
+
+---
