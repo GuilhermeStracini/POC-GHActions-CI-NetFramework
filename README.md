@@ -15,10 +15,10 @@
 
 This repository is an example of .NET Framework (4.8) project/solution using GitHub Actions to:
 
--  Build
--  Test
--  Analyse (Sonar Cloud)
--  Analyse (Codacy)
--  Upload artifacts via FTP
+-    Build
+-    Test
+-    Analyse (Sonar Cloud)
+-    Analyse (Codacy)
+-    Upload artifacts via FTP
 
 ---
