@@ -1,6 +1,6 @@
 name: Update packages
 
-on: 
+on:
   workflow_dispatch:
 
 concurrency:
