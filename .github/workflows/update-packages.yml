@@ -20,7 +20,7 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
-    
+
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -45,7 +45,7 @@ jobs:
         run: git branch features/update_dependencies_${{ github.run_number }}
 
       - name: Switch branch
-        run: git checkout features/update_dependencies_${{ github.run_number }}  
+        run: git checkout features/update_dependencies_${{ github.run_number }}
 
       - name: NuGet restore
         run: nuget restore
