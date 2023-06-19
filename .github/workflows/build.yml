@@ -78,7 +78,7 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
       - name: Setup VSTest
-        uses: darenm/Setup-VSTest@v1
+        uses: darenm/Setup-VSTest@v1.2
 
       - name: Restore NuGet Packages
         run: nuget restore "${{ env.solution }}"
