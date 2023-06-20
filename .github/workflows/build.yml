@@ -25,11 +25,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 19.0.2+7
-
-      - name: Set solution name
-        run: |
-          echo "solution=$([io.path]::GetFileNameWithoutExtension($(Get-ChildItem -Path .\* -Include *.sln))).sln" | Out-File -FilePath $env:GITHUB_ENV -Append
-
+          
       - name: Set value to file and read it
         run: |
           echo "127.0.0.1" > Src/ip.txt
