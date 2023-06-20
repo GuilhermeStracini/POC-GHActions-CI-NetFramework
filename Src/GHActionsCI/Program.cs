@@ -30,7 +30,9 @@ namespace GHActionsCI
         /// <param name="args">The arguments.</param>
         protected static void Main(string[] args)
         {
-            ServiceLocator.Register<IConsoleLogAdapter, StandardConsoleLogAdapter>(LifeStyle.Singleton);
+            ServiceLocator.Register<IConsoleLogAdapter, StandardConsoleLogAdapter>(
+                LifeStyle.Singleton
+            );
             ServiceLocator.Register<IExceptionHandler, NullExceptionHandler>(LifeStyle.Singleton);
 
             LogConsumer.AddProvider<ConsoleLogProvider>();
