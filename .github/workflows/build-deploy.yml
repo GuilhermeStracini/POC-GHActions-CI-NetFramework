@@ -1,0 +1,152 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set solution name
+        run: |
+          echo "solution=$(([io.fileinfo]$(Get-ChildItem -Path .\* -Include *.sln)).name)" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Setup MSBuild Path
+        uses: microsoft/setup-msbuild@v1.3
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      - name: Setup Nuget
+        uses: nuget/setup-nuget@v1
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      - name: Restore NuGet packages
+        run: nuget restore "${{ env.solution }}"
+
+      - name: Build Release
+        run: msbuild "${{ env.solution }}" -m /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:RestoreLockedMode=true -verbosity:detailed
+
+      - name: Set version from file
+        run: |
+          echo "version=$(type Src/IntegracaoService/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Publish Nuget packages (.NET Standard)
+        run: |
+            $projects = @('Configuration', 'Infrastructure', 'Logging', 'Notifications', 'ProductsCrawlers', 'Shared', 'WMWVendas')
+
+            foreach($project in $projects)
+            {
+                dotnet pack "Src/IntegracaoService.$project/IntegracaoService.$project.csproj" --no-build -c Release -o . -p:PackageVersion=${{ env.version }}
+                nuget push "IntegracaoService.$project.${{ env.version }}.nupkg" ${{ secrets.NUGET_APIKEY }} -Source ${{ secrets.NUGET_SERVER }}
+            }
+
+      - name: Upload artifact updater
+        uses: actions/upload-artifact@v3
+        with:
+          name: updater
+          path: |
+                Src\IntegracaoService.Updater\bin\Release\IntegracaoService.Updater.exe
+                Src\IntegracaoService.Updater\bin\Release\Version.txt
+
+      - name: Upload artifact application
+        uses: actions/upload-artifact@v3
+        with:
+          name: application
+          path: |
+                Src\IntegracaoService\bin\Release\pt-BR\*.*
+                Src\IntegracaoService\bin\Release\*.dll
+                Src\IntegracaoService\bin\Release\*.exe
+                Src\IntegracaoService\bin\Release\*.pdb
+                Src\IntegracaoService\bin\Release\*.txt
+                Src\IntegracaoService\bin\Release\*.config
+
+      - name: Upload artifact intranet
+        uses: actions/upload-artifact@v3
+        with:
+          name: intranet
+          path: Src\IntegracaoService.ForIntegration\bin\app.publish
+
+  deploy_app:
+    name: Deploy application
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download application artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: application
+
+      - name: Upload to ftp
+        uses: sebastianpopp/ftp-action@releases/v2
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          user: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          remoteDir: Core
+          forceSsl: true
+
+  deploy_updater:
+    name: Deploy updater
+    needs: deploy_app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download updater artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: updater
+
+      - name: Upload to ftp
+        uses: sebastianpopp/ftp-action@releases/v2
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          user: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          remoteDir: Updater
+          forceSsl: true
+
+  create_release:
+    name: Create Release
+    needs: [deploy_app,deploy_updater]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create Release
+        uses: ncipollo/release-action@v1.12.0
+        id: create_release
+        with:
+          tag: ${{ github.run_number }}
+          name: Release ${{ github.run_number }}
+          generateReleaseNotes: true
+          body: New release of Integração Service
+
+      - name: Send Webhook
+        uses: distributhor/workflow-webhook@v3
+        env:
+          webhook_type: 'json-extended'
+          event_name: 'release'
+          webhook_url: ${{ secrets.RELEASE_WEBHOOK_URL }}
+          webhook_secret: '{"x-github-release-token": "${{ secrets.RELEASE_WEBHOOK_TOKEN }}"}'
+          data: '{ "tag_name": "${{ github.run_number }}", "assets": [] }'
+
+  cleanup:
+    name: Cleanup
+    needs: create_release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove artifacts
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: "*"
+  
