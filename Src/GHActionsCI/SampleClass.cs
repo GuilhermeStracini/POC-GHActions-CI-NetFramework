@@ -31,6 +31,7 @@ namespace GHActionsCI
         /// </summary>
         /// <value>The date.</value>
         public DateTime Date { get; }
+
         /// <summary>
         /// Gets or sets the test.
         /// </summary>
