@@ -60,7 +60,7 @@ jobs:
 
       - name: Set solution name
         run: |
-          echo "solution=$([io.path]::GetFileNameWithoutExtension($(Get-ChildItem -Path .\* -Include *.sln))).sln" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "solution=$([io.path]::GetFileNameWithoutExtension($(Get-ChildItem -Path .\* -Include *.sln)))" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Update PR with comment (build started solution)
         uses: mshick/add-pr-comment@v2
@@ -87,11 +87,11 @@ jobs:
         run: nuget restore "${{ env.solution }}"
 
       - name: Build Debug
-        run: msbuild "${{ env.solution }}" /p:Configuration=Debug  -verbosity:detailed
+        run: msbuild "${{ env.solution }}.sln" /p:Configuration=Debug  -verbosity:detailed
 
       - name: Set version from file
         run: |
-          echo "version=$(type Src/IntegracaoService/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "version=$(type Src/${{ env.solution }}/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Update PR with comment (version)
         uses: mshick/add-pr-comment@v2
