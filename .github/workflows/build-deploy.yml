@@ -40,7 +40,7 @@ jobs:
 
       - name: Set version from file
         run: |
-          echo "version=$(type Src/IntegracaoService/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "version=$(type Src/GHActionsCI/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Publish Nuget packages (.NET Standard)
         run: |
