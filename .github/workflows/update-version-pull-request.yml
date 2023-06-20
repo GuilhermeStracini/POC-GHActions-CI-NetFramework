@@ -84,7 +84,7 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
       - name: Restore NuGet packages
-        run: nuget restore "${{ env.solution }}"
+        run: nuget restore "${{ env.solution }}.sln"
 
       - name: Build Debug
         run: msbuild "${{ env.solution }}.sln" /p:Configuration=Debug  -verbosity:detailed
