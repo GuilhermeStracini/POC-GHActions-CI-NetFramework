@@ -15,6 +15,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
@@ -101,7 +102,14 @@ jobs:
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
+    
     steps:
+    
+      - uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: guibranco
+    
       - name: Download release
         uses: actions/download-artifact@v3
         with:
@@ -116,10 +124,13 @@ jobs:
           password: rNrKYTX9g7z3RgJRmxWuGHbeu
 
   cleanup:
+  
     name: Cleanup
     needs: deploy
     runs-on: ubuntu-latest
+    
     steps:
+    
       - name: Remove artifacts
         uses: geekyeggo/delete-artifact@v2
         with:
