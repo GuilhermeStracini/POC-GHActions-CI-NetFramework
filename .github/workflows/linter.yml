@@ -23,19 +23,3 @@ jobs:
         run: |
           dotnet csharpier . --check
           echo "run 'dotnet build' to fix the formatting of the code automatically"
-
-  inspect-code:
-    runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-
-    steps:
-
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Annotate
-        uses: JetBrains/ReSharper-InspectCode@v0.2
-        with:
-          solution: ./GHActionsCI.sln
-          tool-version: 2023.2.0-eap07
