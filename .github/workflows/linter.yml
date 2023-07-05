@@ -34,12 +34,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set environment variables
-        run: |
-          echo "solution=$(([io.fileinfo]$(Get-ChildItem -Path .\* -Include *.sln)).name)" | Out-File -FilePath $env:GITHUB_ENV -Append
-
       - name: Annotate
         uses: JetBrains/ReSharper-InspectCode@v0.2
         with:
-          solution: "${{ env.solution }}"
-
+          solution: ./GHActionsCI.sln
