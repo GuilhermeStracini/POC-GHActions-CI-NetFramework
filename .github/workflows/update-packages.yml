@@ -14,8 +14,11 @@ jobs:
   update_packages:
     name: Update packages
     runs-on: windows-latest
+    outputs:
+      branchExists: ${{ steps.verify-changed-files.outputs.files_changed }}
 
     steps:
+    
       - name: Generate a token
         id: generate_token
         uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92
@@ -76,8 +79,10 @@ jobs:
     name: Create pull request
     runs-on: ubuntu-latest
     needs: update_packages
+    if: needs.update_packages.outputs.branchExists == 'true'
 
     steps:
+    
       - name: Generate a token
         id: generate_token
         uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92
@@ -101,6 +106,6 @@ jobs:
           title: Update NuGet packages
           assignee: guibranco
           reviewer: guibranco
-          label: dependencies,.NET,infra,NuGet,packages
+          label: dependencies,.NET,infra,nuget,packages
           template: .github/PULL_REQUEST_TEMPLATE/FEATURE.md
           get_diff: true
