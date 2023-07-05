@@ -123,6 +123,20 @@ jobs:
           git commit -a -m "Version bump (CI)"
           echo "sha1=$(git rev-parse HEAD)" | Out-File -FilePath $env:GITHUB_ENV -Append
           git push
+          
+      - name: Update PR with comment
+        uses: mshick/add-pr-comment@v2
+        if: always()
+        with:
+          repo-token: ${{ steps.generate_token.outputs.token }}
+          refresh-message-position: true
+          message-id: 'final'
+          message: |
+            **Build debug & Version bump:** :white_check_mark: Successfully builded and patched **${{ env.solution }}**. Curent version: **${{ env.version }}**
+          message-failure: |
+            **Build debug & Version bump:** :x: Failed
+          message-cancelled: |
+            **Build debug & Version bump:** :o: Cancelled
 
       - name: Set check as successfully after new commit
         uses: LouisBrunner/checks-action@v1.6.1
@@ -154,17 +168,4 @@ jobs:
           state: 'failure'
           sha: ${{ github.event.pull_request.head.sha || github.sha }}
           target_url: ${{ env.GHA_URL }}
-
-      - name: Update PR with comment
-        uses: mshick/add-pr-comment@v2
-        if: always()
-        with:
-          repo-token: ${{ steps.generate_token.outputs.token }}
-          refresh-message-position: true
-          message-id: 'final'
-          message: |
-            **Build debug & Version bump:** :white_check_mark: Successfully builded and patched **${{ env.solution }}**. Curent version: **${{ env.version }}**
-          message-failure: |
-            **Build debug & Version bump:** :x: Failed
-          message-cancelled: |
-            **Build debug & Version bump:** :o: Cancelled
+          
