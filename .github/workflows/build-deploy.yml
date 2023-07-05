@@ -1,8 +1,8 @@
-name: Build & Test .NET Framework
+name: Build & Deploy
+
 on:
   push:
-  pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [ main ]
   workflow_dispatch:
 
 concurrency: 
@@ -26,16 +26,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 19.0.2+7
-
-      - name: Set value to file and read it
-        run: |
-          echo "127.0.0.1" > Src/ip.txt
-          echo "ip=$(type Src/ip.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
-
-      - name: Use environment variable from file
-        run: |
-          echo "${{ env.solution }}"
-          ping ${{ env.ip }} -n 5
 
       - name: Set environment variables
         run: |
@@ -80,7 +70,7 @@ jobs:
       - name: Restore NuGet Packages
         run: nuget restore "${{ env.solution }}"
 
-      - name: Build
+      - name: Build Release
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"${{ env.sonar_key }}" /o:"$("${{ github.repository_owner }}".ToLower())" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           msbuild "${{ env.solution }}" /p:Configuration=Release
