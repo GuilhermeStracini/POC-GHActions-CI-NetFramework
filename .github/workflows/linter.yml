@@ -38,3 +38,4 @@ jobs:
         uses: JetBrains/ReSharper-InspectCode@v0.2
         with:
           solution: ./GHActionsCI.sln
+          tool-version: 2023.2.0-eap07
