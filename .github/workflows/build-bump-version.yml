@@ -78,7 +78,7 @@ jobs:
           msbuild-architecture: x64
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-    
+
       - name: Setup Nuget
         uses: nuget/setup-nuget@v1.2
         env:
@@ -124,7 +124,7 @@ jobs:
           git commit -a -m "Version bump (CI)"
           echo "sha1=$(git rev-parse HEAD)" | Out-File -FilePath $env:GITHUB_ENV -Append
           git push
-          
+
       - name: Update PR with comment
         uses: mshick/add-pr-comment@v2
         if: always()
@@ -169,4 +169,3 @@ jobs:
           state: 'failure'
           sha: ${{ github.event.pull_request.head.sha || github.sha }}
           target_url: ${{ env.GHA_URL }}
-          
