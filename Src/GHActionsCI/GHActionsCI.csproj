@@ -36,8 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CrispyWaffle, Version=4.1.98.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\packages\CrispyWaffle.4.1.98\lib\netstandard2.0\CrispyWaffle.dll</HintPath>
+    <Reference Include="CrispyWaffle, Version=4.1.113.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\CrispyWaffle.4.1.113\lib\netstandard2.0\CrispyWaffle.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
