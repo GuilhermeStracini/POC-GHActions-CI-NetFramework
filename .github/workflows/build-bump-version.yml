@@ -45,7 +45,7 @@ jobs:
             **Build debug & Version bump:** :beginner: Started building
 
       - name: Generate check
-        uses: LouisBrunner/checks-action@v1.6.1
+        uses: LouisBrunner/checks-action@v1.6.2
         id: generate_check
         if: always()
         with:
@@ -104,7 +104,7 @@ jobs:
             **Build debug & Version bump:** :dart: Build succeeded - New version: ${{ env.version }}
 
       - name: Set check as successfully before new commit
-        uses: LouisBrunner/checks-action@v1.6.1
+        uses: LouisBrunner/checks-action@v1.6.2
         with:
           token: ${{ steps.generate_token.outputs.token }}
           conclusion: 'success'
@@ -140,7 +140,7 @@ jobs:
             **Build debug & Version bump:** :o: Cancelled
 
       - name: Set check as successfully after new commit
-        uses: LouisBrunner/checks-action@v1.6.1
+        uses: LouisBrunner/checks-action@v1.6.2
         with:
           token: ${{ steps.generate_token.outputs.token }}
           conclusion: 'success'
