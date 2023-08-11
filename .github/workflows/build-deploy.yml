@@ -109,9 +109,21 @@ jobs:
         uses: sebastianpopp/ftp-action@releases/v2
         continue-on-error: true
         with:
-          host: ftp://ftp.dlptest.com/
-          user: dlpuser
-          password: rNrKYTX9g7z3RgJRmxWuGHbeu
+          host: ${{ secrets.FTP_SERVER }}
+          user: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+
+      - name: Connect to SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_SERVER }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            mkdir test
+            cd test
+            echo test > test.txt
 
   cleanup:
 
