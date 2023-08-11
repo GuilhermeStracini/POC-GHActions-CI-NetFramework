@@ -112,7 +112,7 @@ jobs:
           host: ${{ secrets.FTP_SERVER }}
           user: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          
+
       - name: Connect to SSH
         uses: appleboy/ssh-action@master
         with:
