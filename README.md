@@ -17,14 +17,15 @@
 
 ---
 
-This repository is a playground/sandbox of a .NET Framework (4.8) project/solution using GitHub Actions to: 
+This repository is a playground/sandbox of a .NET Framework (4.8) project/solution using GitHub Actions to:
 
-- Checkout
-- Configure environment (MSBuild, VSTest, NuGet, Java - for SonarCloud scanner)
-- Cache dependencies (SonarCloud scanner and packages)
-- Restore
-- Build
-- Test
-- Code Quality & Metrics (Sonar Cloud, Codacy, Code Climate, Snyk, Codecov, CodeFactor)
-- Request approval to publish/deploy
-- Upload artifacts via FTP
+-   GIT Checkout
+-   Configure environment (MSBuild, VSTest, NuGet, Java - for SonarCloud scanner)
+-   Cache dependencies (SonarCloud scanner and packages)
+-   Restore
+-   Build
+-   Test
+-   Code Quality & Metrics (Sonar Cloud, Codacy, Code Climate, Snyk, Codecov, CodeFactor)
+-   Request approval to publish/deploy
+-   Upload artifacts via FTP
+-   Login to SSH and execute commands
