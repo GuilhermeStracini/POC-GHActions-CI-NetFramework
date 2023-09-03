@@ -29,3 +29,6 @@ This repository is a playground/sandbox of a .NET Framework (4.8) project/soluti
 -   Request approval to publish/deploy
 -   Upload artifacts via FTP
 -   Login to SSH and execute commands
+
+---
+In this blog article [Using GitHub Actions to create a .NET Framework pipeline. Build, test, and deploy!](https://blog.guilhermebranco.com.br/using-github-actions-to-create-a-net-framework-pipeline-build-test-and-deploy/) I explain what is done in this repository.
