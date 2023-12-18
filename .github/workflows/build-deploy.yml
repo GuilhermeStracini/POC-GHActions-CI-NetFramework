@@ -83,7 +83,7 @@ jobs:
         run: Src\GHActionsCI\bin\Release\GHActionsCI.exe
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4.0.0
         with:
           name: release
           path: Src\GHActionsCI\bin\Release\
@@ -101,7 +101,7 @@ jobs:
           approvers: guibranco
 
       - name: Download release
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: release
 
