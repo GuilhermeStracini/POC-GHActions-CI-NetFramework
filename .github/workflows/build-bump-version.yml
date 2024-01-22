@@ -114,6 +114,17 @@ jobs:
         if: steps.changes.outputs.src == 'true'
         run: msbuild "${{ env.solution }}.sln" /p:Configuration=Debug -verbosity:detailed -flp1:"logfile=msbuild.errors.log;errorsonly" -flp2:"logfile=msbuild.warnings.log;warningsonly"
 
+      - name: Test
+        run: coverlet "Tests\${{ env.solution }}.UnitTests\bin\Debg\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.Tests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
+
+      - name: Install DeepSource scanner
+        run: curl https://deepsource.io/cli | sh
+
+      - name: Analyze
+        env:
+          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
+        run: ./bin/deepsource report --analyzer test-coverage --key csharp --value-file "Tests\${{ env.solution }}.UnitTests\coverage.cobertura.xml"
+      
       - name: Set version from file
         if: steps.changes.outputs.src == 'true'
         run: |
