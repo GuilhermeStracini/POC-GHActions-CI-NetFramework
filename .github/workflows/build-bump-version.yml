@@ -106,6 +106,14 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
+      - name: Setup VSTest
+        if: steps.changes.outputs.src == 'true'
+        uses: darenm/Setup-VSTest@v1.2
+
+      - name: DotNet Tool Install Coverlet
+        if: steps.changes.outputs.src == 'true'
+        run: dotnet tool install --global coverlet.console
+
       - name: Restore NuGet packages
         if: steps.changes.outputs.src == 'true'
         run: nuget restore "${{ env.solution }}.sln"
@@ -115,12 +123,15 @@ jobs:
         run: msbuild "${{ env.solution }}.sln" /p:Configuration=Debug -verbosity:detailed -flp1:"logfile=msbuild.errors.log;errorsonly" -flp2:"logfile=msbuild.warnings.log;warningsonly"
 
       - name: Test
+        if: steps.changes.outputs.src == 'true'
         run: coverlet "Tests\${{ env.solution }}.UnitTests\bin\Debg\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.Tests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
 
       - name: Install DeepSource scanner
+        if: steps.changes.outputs.src == 'true'
         run: curl https://deepsource.io/cli | sh
 
       - name: Analyze
+        if: steps.changes.outputs.src == 'true'
         env:
           DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
         run: ./bin/deepsource report --analyzer test-coverage --key csharp --value-file "Tests\${{ env.solution }}.UnitTests\coverage.cobertura.xml"
