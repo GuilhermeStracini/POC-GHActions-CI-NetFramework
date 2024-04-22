@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
 
       - name: Install DeepSource scanner
         run: curl https://deepsource.io/cli | sh
