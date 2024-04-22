@@ -40,8 +40,8 @@ namespace GHActionsCI.UnitTests
             var date = DateTime.Now;
             var instance = new SampleClass(date);
 
-            Assert.IsNotNull(instance);
-            Assert.AreEqual(date, instance.Date);
+            Assert.That(instance, Is.Not.Null);
+            Assert.That(instance.Date, Is.EqualTo(date));
         }
     }
 }
