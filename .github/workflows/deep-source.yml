@@ -19,15 +19,42 @@ jobs:
       - name: Install DeepSource scanner
         run: curl https://deepsource.io/cli | sh
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '7.0.x'
+      - name: Set solution name
+        run: |
+          echo "solution=$([io.path]::GetFileNameWithoutExtension($(Get-ChildItem -Path .\* -Include *.sln)))" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "projectPath=$((Get-ChildItem -Path .\Src\ -Directory | Select-Object -First 1).Name)" | Out-File -FilePath $env:GITHUB_ENV -Append
 
-      - name: Build and analyze
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      - name: Setup Nuget
+        uses: nuget/setup-nuget@v2
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      - name: Setup VSTest
+        uses: darenm/Setup-VSTest@v1.2
+
+      - name: DotNet Tool Install Coverlet
+        run: dotnet tool install --global coverlet.console
+
+      - name: Restore NuGet packages
+        run: nuget restore "${{ env.solution }}.sln"
+
+      - name: Build Debug
+        run: msbuild "${{ env.solution }}.sln" /p:Configuration=Debug -verbosity:detailed -flp1:"logfile=msbuild.errors.log;errorsonly" -flp2:"logfile=msbuild.warnings.log;warningsonly"
+
+      - name: Test
+        run: coverlet "Tests\${{ env.solution }}.UnitTests\bin\Debg\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.Tests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
+
+      - name: Install DeepSource scanner
+        run: curl https://deepsource.io/cli | sh
+
+      - name: Analyze
         env:
           DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
-        run: |
-          dotnet build -c Debug --verbosity minimal
-          dotnet test -c Debug --verbosity minimal --no-build --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat="cobertura"
-          ./bin/deepsource report --analyzer test-coverage --key csharp --value-file ./Tests/GHActionsCI.UnitTests/coverage.cobertura.xml
+        run: ./bin/deepsource report --analyzer test-coverage --key csharp --value-file "Tests\${{ env.solution }}.UnitTests\coverage.cobertura.xml"
