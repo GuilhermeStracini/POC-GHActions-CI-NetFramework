@@ -49,7 +49,7 @@ jobs:
         run: msbuild "${{ env.solution }}.sln" /p:Configuration=Debug -verbosity:detailed -flp1:"logfile=msbuild.errors.log;errorsonly" -flp2:"logfile=msbuild.warnings.log;warningsonly"
 
       - name: Test
-        run: coverlet "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.Tests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
+        run: coverlet "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
 
       - name: Install DeepSource scanner
         run: curl https://deepsource.io/cli | sh
