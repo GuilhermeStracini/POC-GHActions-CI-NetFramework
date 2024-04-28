@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<coverage line-rate="0" branch-rate="0" version="1.9" timestamp="1714348151" lines-covered="0" lines-valid="2953" branches-covered="0" branches-valid="1052">
+<coverage line-rate="0" branch-rate="0" version="1.9" timestamp="1714348324" lines-covered="0" lines-valid="2953" branches-covered="0" branches-valid="1052">
   <sources>
     <source>C:\projects\crispywaffle\Src\CrispyWaffle\</source>
     <source>D:\a\POC-GHActions-CI-NetFramework\POC-GHActions-CI-NetFramework\Src\GHActionsCI\</source>
