@@ -13,7 +13,9 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/83c1d6f45041d9d67d30/test_coverage)](https://codeclimate.com/github/GuilhermeStracini/POC-GHActions-CI-NetFramework/test_coverage)
 [![CodeFactor](https://www.codefactor.io/repository/github/GuilhermeStracini/POC-GHActions-CI-NetFramework/badge)](https://www.codefactor.io/repository/github/GuilhermeStracini/POC-GHActions-CI-NetFramework)
 
-🔬 PoC of a .NET Framework project using GitHub Actions for pipelines
+🔬 PoC of a .NET Framework project using GitHub Actions for pipelines.
+
+In this blog article: [Using GitHub Actions to create a .NET Framework pipeline. Build, test, and deploy!](https://blog.guilhermebranco.com.br/using-github-actions-to-create-a-net-framework-pipeline-build-test-and-deploy/) I explain what is done in this repository.
 
 ---
 
@@ -31,4 +33,3 @@ This repository is a playground/sandbox of a .NET Framework (4.8) project/soluti
 -   Login to SSH and execute commands
 
 ---
-In this blog article [Using GitHub Actions to create a .NET Framework pipeline. Build, test, and deploy!](https://blog.guilhermebranco.com.br/using-github-actions-to-create-a-net-framework-pipeline-build-test-and-deploy/) I explain what is done in this repository.
