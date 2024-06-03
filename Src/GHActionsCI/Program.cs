@@ -13,12 +13,12 @@
 // ***********************************************************************
 namespace GHActionsCI
 {
+    using System.Diagnostics.CodeAnalysis;
     using CrispyWaffle.Composition;
     using CrispyWaffle.Log;
     using CrispyWaffle.Log.Adapters;
     using CrispyWaffle.Log.Handlers;
     using CrispyWaffle.Log.Providers;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Class Program.
