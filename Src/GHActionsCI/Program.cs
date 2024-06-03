@@ -13,6 +13,7 @@
 // ***********************************************************************
 namespace GHActionsCI
 {
+    using System.Diagnostics.CodeAnalysis;
     using CrispyWaffle.Composition;
     using CrispyWaffle.Log;
     using CrispyWaffle.Log.Adapters;
@@ -22,6 +23,7 @@ namespace GHActionsCI
     /// <summary>
     /// Class Program.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     internal class Program
     {
         /// <summary>
