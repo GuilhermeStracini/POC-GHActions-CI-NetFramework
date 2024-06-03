@@ -18,10 +18,12 @@ namespace GHActionsCI
     using CrispyWaffle.Log.Adapters;
     using CrispyWaffle.Log.Handlers;
     using CrispyWaffle.Log.Providers;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Class Program.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     internal class Program
     {
         /// <summary>
