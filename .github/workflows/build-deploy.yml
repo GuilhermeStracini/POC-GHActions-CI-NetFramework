@@ -79,7 +79,6 @@ jobs:
       - name: Test
         run: coverlet "Tests\${{ env.solution }}.UnitTests\bin\Release\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Release\${{ env.solution }}.UnitTests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
 
-
       - name: Run
         run: Src\GHActionsCI\bin\Release\GHActionsCI.exe
 
