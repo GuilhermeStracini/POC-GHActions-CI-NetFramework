@@ -77,7 +77,7 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
       - name: Test
-        run: vstest.console.exe .\Test\GHActionsCI.UnitTests\bin\Release\GHActionsCI.UnitTests.dll
+        run: coverlet "Tests\${{ env.solution }}.UnitTests\bin\Release\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Release\${{ env.solution }}.UnitTests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
 
       - name: Run
         run: Src\GHActionsCI\bin\Release\GHActionsCI.exe
