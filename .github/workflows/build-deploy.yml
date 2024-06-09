@@ -82,6 +82,16 @@ jobs:
       - name: Test
         run: coverlet "Tests\${{ env.solution }}.UnitTests\bin\Release\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Release\${{ env.solution }}.UnitTests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
 
+      - name: Install DeepSource scanner
+        run: |
+          curl -L https://github.com/DeepSourceCorp/cli/releases/download/v0.8.6/deepsource_0.8.6_windows_x86_64.tar.gz > deepsource.tar.gz
+          tar -xzf deepsource.tar.gz
+
+      - name: Analyze
+        env:
+          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
+        run: .\deepsource report --analyzer test-coverage --key csharp --value-file "Tests\${{ env.solution }}.UnitTests\coverage.cobertura.xml"
+      
       - name: Run
         run: Src\GHActionsCI\bin\Release\GHActionsCI.exe
 
