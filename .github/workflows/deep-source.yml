@@ -12,13 +12,7 @@ jobs:
     name: Deep Source Coverage report
     runs-on: windows-latest
     
-    steps:
-      - name: Install DeepSource scanner
-        run: |
-          curl -L https://github.com/DeepSourceCorp/cli/releases/download/v0.8.6/deepsource_0.8.6_windows_x86_64.tar.gz > deepsource.tar.gz
-          tar -xzf deepsource.tar.gz
-          .\deepsource --help
-    
+    steps:    
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
