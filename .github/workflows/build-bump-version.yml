@@ -126,9 +126,10 @@ jobs:
         if: steps.changes.outputs.src == 'true'
         run: coverlet "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
 
-      - name: Install DeepSource scanner
-        if: steps.changes.outputs.src == 'true'
-        run: curl -L https://github.com/DeepSourceCorp/cli/releases/download/v0.8.6/deepsource_0.8.6_windows_x86_64.tar.gz > deepsource.exe
+     - name: Install DeepSource scanner
+        run: |
+          curl -L https://github.com/DeepSourceCorp/cli/releases/download/v0.8.6/deepsource_0.8.6_windows_x86_64.tar.gz > deepsource.tar.gz
+          tar -xzf deepsource.tar.gz
 
       - name: Analyze
         if: steps.changes.outputs.src == 'true'
