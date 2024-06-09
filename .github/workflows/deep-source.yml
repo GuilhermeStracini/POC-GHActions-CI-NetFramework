@@ -54,4 +54,4 @@ jobs:
       - name: Analyze
         env:
           DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
-        run: deepsource report --analyzer test-coverage --key csharp --value-file "Tests\${{ env.solution }}.UnitTests\coverage.cobertura.xml"
+        run: .\deepsource report --analyzer test-coverage --key csharp --value-file "Tests\${{ env.solution }}.UnitTests\coverage.cobertura.xml"
