@@ -67,6 +67,9 @@ jobs:
       - name: Setup VSTest
         uses: darenm/Setup-VSTest@v1.3
 
+      - name: DotNet Tool Install Coverlet
+        run: dotnet tool install --global coverlet.console
+
       - name: Restore NuGet Packages
         run: nuget restore "${{ env.solution }}"
 
@@ -75,7 +78,7 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"${{ env.sonar_key }}" /o:"$("${{ github.repository_owner }}".ToLower())" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           msbuild "${{ env.solution }}" /p:Configuration=Release
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-
+      
       - name: Test
         run: coverlet "Tests\${{ env.solution }}.UnitTests\bin\Release\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Release\${{ env.solution }}.UnitTests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
 
