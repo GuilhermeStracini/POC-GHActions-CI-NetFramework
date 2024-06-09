@@ -11,7 +11,14 @@ jobs:
   DeepSource:
     name: Deep Source Coverage report
     runs-on: windows-latest
+    
     steps:
+      - name: Install DeepSource scanner
+        run: |
+          curl -L https://github.com/DeepSourceCorp/cli/releases/download/v0.8.6/deepsource_0.8.6_windows_x86_64.tar.gz > deepsource.tar.gz
+          tar -xzf deepsource.tar.gz
+          .\deepsource --help
+    
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
@@ -49,7 +56,9 @@ jobs:
         run: coverlet "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
 
       - name: Install DeepSource scanner
-        run: curl -L https://github.com/DeepSourceCorp/cli/releases/download/v0.8.6/deepsource_0.8.6_windows_x86_64.tar.gz > deepsource.exe
+        run: |
+          curl -L https://github.com/DeepSourceCorp/cli/releases/download/v0.8.6/deepsource_0.8.6_windows_x86_64.tar.gz > deepsource.tar.gz
+          tar -xzf deepsource.tar.gz
 
       - name: Analyze
         env:
