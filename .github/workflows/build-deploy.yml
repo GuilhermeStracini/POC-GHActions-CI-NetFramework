@@ -29,7 +29,7 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo "solution=$(([io.fileinfo]$(Get-ChildItem -Path .\* -Include *.sln)).name)" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "solution=$([io.path]::GetFileNameWithoutExtension($(Get-ChildItem -Path .\* -Include *.sln)))" | Out-File -FilePath $env:GITHUB_ENV -Append
           echo "sonar_key=$("${{ github.repository }}" -replace "/","_")" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Cache SonarCloud packages
@@ -71,12 +71,12 @@ jobs:
         run: dotnet tool install --global coverlet.console
 
       - name: Restore NuGet Packages
-        run: nuget restore "${{ env.solution }}"
+        run: nuget restore "${{ env.solution }}.sln"
 
       - name: Build Release
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"${{ env.sonar_key }}" /o:"$("${{ github.repository_owner }}".ToLower())" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          msbuild "${{ env.solution }}" /p:Configuration=Release
+          msbuild "${{ env.solution }}.sln" /p:Configuration=Release
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
       
       - name: Test
