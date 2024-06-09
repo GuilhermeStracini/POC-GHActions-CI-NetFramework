@@ -142,14 +142,14 @@ jobs:
           echo "version=$(type Src/${{ env.projectPath }}/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
       
       - name: Read warnings.txt
-        uses: guibranco/github-file-reader-action-v2@latest
+        uses: guibranco/github-file-reader-action-v2@v2.1.516
         if: steps.changes.outputs.src == 'true'
         id: warnings
         with:
          path: msbuild.warnings.log
 
       - name: Read errors.txt        
-        uses: guibranco/github-file-reader-action-v2@latest
+        uses: guibranco/github-file-reader-action-v2@v2.1.516
         if: failure() && steps.changes.outputs.src == 'true'
         id: errors
         with:
