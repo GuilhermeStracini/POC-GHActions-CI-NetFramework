@@ -135,9 +135,9 @@ jobs:
         if: steps.changes.outputs.src == 'true'
         env:
           DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
-        run: deepsource report --analyzer test-coverage --key csharp --value-file "Tests\${{ env.solution }}.UnitTests\coverage.cobertura.xml"
+        run: .\deepsource report --analyzer test-coverage --key csharp --value-file "Tests\${{ env.solution }}.UnitTests\coverage.cobertura.xml"
       
-      - name: Set version from file
+      - name: Set version from a file
         if: steps.changes.outputs.src == 'true'
         run: |
           echo "version=$(type Src/${{ env.projectPath }}/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
@@ -176,7 +176,7 @@ jobs:
           output: |
             {"summary":"New version: ${{ env.version }}"}
 
-      - name: Set check as action required before new commit
+      - name: Set check as the action required before new commit
         uses: LouisBrunner/checks-action@v2.0.0
         if: failure()
         with:
@@ -185,7 +185,7 @@ jobs:
           action_url: ${{ env.GHA_URL }}
           check_id: ${{ steps.generate_check.outputs.check_id }}
           output: |
-            {"summary":"Build failed!"}
+            {"summary": "Build failed!"}
 
       - name: Setup GIT config
         if: steps.changes.outputs.src == 'true'
@@ -227,7 +227,7 @@ jobs:
           message-cancelled: |
             **Build debug & Version bump:** :o: [Cancelled](${{ env.GHA_URL }})
 
-      - name: Set check as successfully after new commit
+      - name: Set check as successfully after a new commit
         uses: LouisBrunner/checks-action@v2.0.0
         if: steps.changes.outputs.src == 'true'
         with:
