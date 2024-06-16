@@ -21,16 +21,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: 19.0.2+7
-
       - name: Set environment variables
         run: |
           echo "solution=$([io.path]::GetFileNameWithoutExtension($(Get-ChildItem -Path .\* -Include *.sln)))" | Out-File -FilePath $env:GITHUB_ENV -Append
           echo "sonar_key=$("${{ github.repository }}" -replace "/","_")" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v4
@@ -73,15 +73,13 @@ jobs:
       - name: Restore NuGet Packages
         run: nuget restore "${{ env.solution }}.sln"
 
-      - name: Build Release
+      - name: Build & Test
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"${{ env.sonar_key }}" /o:"$("${{ github.repository_owner }}".ToLower())" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           msbuild "${{ env.solution }}.sln" /p:Configuration=Release
+          coverlet "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
       
-      - name: Test
-        run: coverlet "Tests\${{ env.solution }}.UnitTests\bin\Release\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Release\${{ env.solution }}.UnitTests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
-
       - name: Install DeepSource scanner
         run: |
           curl -L https://github.com/DeepSourceCorp/cli/releases/download/v0.8.6/deepsource_0.8.6_windows_x86_64.tar.gz > deepsource.tar.gz
