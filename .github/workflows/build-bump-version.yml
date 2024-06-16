@@ -59,13 +59,14 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Check for changes in Src/ directory
+      - name: Check for changes in Src or .github/workflows directory
         uses: dorny/paths-filter@v3
         id: changes
         with:
           filters: |
             src:
               - "Src/**"
+              - ".github/workflows/**"
 
       - name: Set solution name
         run: |
