@@ -59,22 +59,24 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Check for changes in Src/ directory
+      - name: Check for changes in Src or .github/workflows directory
         uses: dorny/paths-filter@v3
         id: changes
         with:
           filters: |
             src:
               - "Src/**"
+              - ".github/workflows/**"
 
       - name: Set solution name
         run: |
           echo "solution=$([io.path]::GetFileNameWithoutExtension($(Get-ChildItem -Path .\* -Include *.sln)))" | Out-File -FilePath $env:GITHUB_ENV -Append
           echo "projectPath=$((Get-ChildItem -Path .\Src\ -Directory | Select-Object -First 1).Name)" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "sonar_key=$("${{ github.repository }}" -replace "/","_")" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Update PR with comment (build started solution)
         uses: mshick/add-pr-comment@v2
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
           refresh-message-position: true
@@ -92,9 +94,40 @@ jobs:
           message: |
             **Build debug & Version bump:** :alien: [Not building ${{ env.solution }}.sln](${{ env.GHA_URL }}), no source files changed.
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
+        with:
+          distribution: 'temurin'
+          java-version: 21
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
+        uses: actions/cache@v4
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v2
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           msbuild-architecture: x64
         env:
@@ -102,63 +135,64 @@ jobs:
 
       - name: Setup Nuget
         uses: nuget/setup-nuget@v2
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
       - name: Setup VSTest
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         uses: darenm/Setup-VSTest@v1.3
 
       - name: DotNet Tool Install Coverlet
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         run: dotnet tool install --global coverlet.console
 
       - name: Restore NuGet packages
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         run: nuget restore "${{ env.solution }}.sln"
 
-      - name: Build Debug
-        if: steps.changes.outputs.src == 'true'
-        run: msbuild "${{ env.solution }}.sln" /p:Configuration=Debug -verbosity:detailed -flp1:"logfile=msbuild.errors.log;errorsonly" -flp2:"logfile=msbuild.warnings.log;warningsonly"
-
-      - name: Test
-        if: steps.changes.outputs.src == 'true'
-        run: coverlet "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
-
+      - name: Build & Test
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
+        run: |
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"${{ env.sonar_key }}" /o:"$("${{ github.repository_owner }}".ToLower())" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          msbuild "${{ env.solution }}.sln" /p:Configuration=Debug -verbosity:detailed -flp1:"logfile=msbuild.errors.log;errorsonly" -flp2:"logfile=msbuild.warnings.log;warningsonly"
+          coverlet "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      
       - name: Install DeepSource scanner
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           curl -L https://github.com/DeepSourceCorp/cli/releases/download/v0.8.6/deepsource_0.8.6_windows_x86_64.tar.gz > deepsource.tar.gz
           tar -xzf deepsource.tar.gz
 
       - name: Analyze
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         env:
           DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
         run: .\deepsource report --analyzer test-coverage --key csharp --value-file "Tests\${{ env.solution }}.UnitTests\coverage.cobertura.xml"
       
       - name: Set version from a file
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           echo "version=$(type Src/${{ env.projectPath }}/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
       
       - name: Read warnings.txt
         uses: guibranco/github-file-reader-action-v2@v2.1.535
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         id: warnings
         with:
          path: msbuild.warnings.log
 
       - name: Read errors.txt        
         uses: guibranco/github-file-reader-action-v2@v2.1.535
-        if: failure() && steps.changes.outputs.src == 'true'
+        if: failure() && (steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch')
         id: errors
         with:
          path: msbuild.errors.log
 
       - name: Update PR with comment (version)
         uses: mshick/add-pr-comment@v2
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
           refresh-message-position: true
@@ -188,14 +222,14 @@ jobs:
             {"summary": "Build failed!"}
 
       - name: Setup GIT config
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           git config user.name "net-framework-updater[bot]"
           git config user.email "136581072+net-framework-updater[bot]@users.noreply.github.com"
           git config --global --add --bool push.autoSetupRemote true
 
       - name: Commit and Push
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           git add .
           git commit -a -m "Version bump (CI)"
@@ -204,7 +238,7 @@ jobs:
           
       - name: Update PR with comment
         uses: mshick/add-pr-comment@v2
-        if: always() && steps.changes.outputs.src == 'true'
+        if: always() && (steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch')
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
           refresh-message-position: true
@@ -229,7 +263,7 @@ jobs:
 
       - name: Set check as successfully after a new commit
         uses: LouisBrunner/checks-action@v2.0.0
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           token: ${{ steps.generate_token.outputs.token }}
           conclusion: 'success'
@@ -239,7 +273,7 @@ jobs:
 
       - name: Update check run status (Success)
         uses: guibranco/github-status-action-v2@v1.1.13
-        if: success() && steps.changes.outputs.src == 'true'
+        if: success() && (steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch')
         with:
           authToken: ${{ steps.generate_token.outputs.token }}
           context: 'Build & Bump Version'

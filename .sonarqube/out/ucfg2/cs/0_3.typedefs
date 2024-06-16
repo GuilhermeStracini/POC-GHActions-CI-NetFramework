@@ -1,0 +1,7 @@
+¯
+GHActionsCI.SampleClassobjectT
+SampleClass(System.DateTime)4GHActionsCI.SampleClass.SampleClass(System.DateTime),
+Date.get GHActionsCI.SampleClass.Date.get,
+Date.set GHActionsCI.SampleClass.Date.set,
+Test.get GHActionsCI.SampleClass.Test.get,
+Test.set GHActionsCI.SampleClass.Test.set

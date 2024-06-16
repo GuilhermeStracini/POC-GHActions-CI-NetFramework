@@ -1,0 +1,7 @@
+organization=guilhermestracini
+projectKey=GuilhermeStracini_POC-GHActions-CI-NetFramework
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.55129
+dashboardUrl=https://sonarcloud.io/dashboard?id=GuilhermeStracini_POC-GHActions-CI-NetFramework&branch=feature%2F111-feature-add-sonar-cloud-coverage-report&resolved=false
+ceTaskId=AZAiOnDdorb16-Sg8DcH
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZAiOnDdorb16-Sg8DcH
