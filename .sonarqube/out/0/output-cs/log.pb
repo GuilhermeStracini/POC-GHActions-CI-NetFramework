@@ -1,1 +1,0 @@
-Roslyn version: 4.10.0.0Language version: CSharp7_3!Concurrent execution: enabled³®File 'D:\a\POC-GHActions-CI-NetFramework\POC-GHActions-CI-NetFramework\Src\GHActionsCI\obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs' was recognized as generated
