@@ -1,0 +1,6 @@
+﻿D:\a\POC-GHActions-CI-NetFramework\POC-GHActions-CI-NetFramework\Src\GHActionsCI\Program.cs
+D:\a\POC-GHActions-CI-NetFramework\POC-GHActions-CI-NetFramework\Src\GHActionsCI\Properties\AssemblyInfo.cs
+D:\a\POC-GHActions-CI-NetFramework\POC-GHActions-CI-NetFramework\Src\GHActionsCI\SampleClass.cs
+D:\a\POC-GHActions-CI-NetFramework\POC-GHActions-CI-NetFramework\Src\GHActionsCI\App.config
+D:\a\POC-GHActions-CI-NetFramework\POC-GHActions-CI-NetFramework\Src\GHActionsCI\packages.config
+D:\a\POC-GHActions-CI-NetFramework\POC-GHActions-CI-NetFramework\Src\GHActionsCI\Properties\Version.txt
