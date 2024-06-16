@@ -1,4 +1,0 @@
-﻿D:\a\POC-GHActions-CI-NetFramework\POC-GHActions-CI-NetFramework\Tests\GHActionsCI.UnitTestS\SampleClassTests.cs
-D:\a\POC-GHActions-CI-NetFramework\POC-GHActions-CI-NetFramework\Tests\GHActionsCI.UnitTestS\Properties\AssemblyInfo.cs
-D:\a\POC-GHActions-CI-NetFramework\POC-GHActions-CI-NetFramework\Tests\GHActionsCI.UnitTestS\app.config
-D:\a\POC-GHActions-CI-NetFramework\POC-GHActions-CI-NetFramework\Tests\GHActionsCI.UnitTestS\packages.config

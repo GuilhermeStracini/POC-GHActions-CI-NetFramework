@@ -1,1 +1,0 @@
-D:\a\POC-GHActions-CI-NetFramework\POC-GHActions-CI-NetFramework\.sonarqube\out\1
