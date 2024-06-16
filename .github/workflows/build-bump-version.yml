@@ -99,7 +99,7 @@ jobs:
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           distribution: 'temurin'
-          java-version: 19.0.2+7
+          java-version: 21
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v4
