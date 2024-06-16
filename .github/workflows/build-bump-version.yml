@@ -165,7 +165,7 @@ jobs:
           curl -L https://github.com/DeepSourceCorp/cli/releases/download/v0.8.6/deepsource_0.8.6_windows_x86_64.tar.gz > deepsource.tar.gz
           tar -xzf deepsource.tar.gz
 
-      - name: Analyze
+      - name: Analyze before commit
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         env:
           DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
@@ -236,6 +236,12 @@ jobs:
           echo "sha1=$(git rev-parse HEAD)" | Out-File -FilePath $env:GITHUB_ENV -Append
           git push
           
+      - name: Analyze after commit
+        if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
+        env:
+          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
+        run: .\deepsource report --analyzer test-coverage --key csharp --value-file "Tests\${{ env.solution }}.UnitTests\coverage.cobertura.xml"
+
       - name: Update PR with comment
         uses: mshick/add-pr-comment@v2
         if: always() && (steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch')
