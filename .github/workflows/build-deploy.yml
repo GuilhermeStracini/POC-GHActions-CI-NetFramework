@@ -94,7 +94,7 @@ jobs:
         run: Src\GHActionsCI\bin\Release\GHActionsCI.exe
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v4.3.4
         with:
           name: release
           path: Src\GHActionsCI\bin\Release\
