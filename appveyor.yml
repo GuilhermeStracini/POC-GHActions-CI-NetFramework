@@ -1,0 +1,16 @@
+version: 1.0.{build}
+image: Visual Studio 2019
+
+configuration: Release
+
+before_build:
+  - ps: Install-Product node $env:nodejs_version
+  - npm install -g codeclimate-test-reporter
+
+build_script:
+  - ps: dotnet build
+
+test_script:
+  - ps: dotnet test --logger:trx --results-directory:test_results
+  - codeclimate-test-reporter format-coverage < test_results
+  - codeclimate-test-reporter upload-coverage
