@@ -33,7 +33,7 @@ namespace GHActionsCI
         protected static void Main(string[] args)
         {
             ServiceLocator.Register<IConsoleLogAdapter, StandardConsoleLogAdapter>(
-                LifeStyle.Singleton
+                Lifetime.Singleton
             );
             ServiceLocator.Register<IExceptionHandler, NullExceptionHandler>(Lifetime.Singleton);
 
