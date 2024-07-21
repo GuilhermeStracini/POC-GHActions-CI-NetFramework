@@ -35,7 +35,7 @@ namespace GHActionsCI
             ServiceLocator.Register<IConsoleLogAdapter, StandardConsoleLogAdapter>(
                 LifeStyle.Singleton
             );
-            ServiceLocator.Register<IExceptionHandler, NullExceptionHandler>(LifeStyle.Singleton);
+            ServiceLocator.Register<IExceptionHandler, NullExceptionHandler>(Lifetime.Singleton);
 
             LogConsumer.AddProvider<ConsoleLogProvider>();
 
