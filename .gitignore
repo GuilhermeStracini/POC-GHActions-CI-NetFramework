@@ -5,6 +5,7 @@
 
 # DeepSource
 deepsource.*
+completions/
 
 # Sonar scanner
 .sonar*
