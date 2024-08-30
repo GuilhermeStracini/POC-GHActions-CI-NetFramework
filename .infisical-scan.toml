@@ -1,0 +1,12 @@
+title = "DotNetFramework"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "global allow list"
+paths = ['''(.*?)\.csproj''', '''(.*?)\.js''']
+
+regexTarget = "match"
+
+regexes = ['''KeyToken''', '''keyCode.END''']
