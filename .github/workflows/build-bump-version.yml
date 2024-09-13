@@ -42,7 +42,7 @@ jobs:
           refresh-message-position: true
           message-id: 'begin'
           message: |
-            **Build debug & Version bump:** :beginner: [Build started](${{ env.GHA_URL }})
+            **Build & Version bump:** :beginner: [Build started](${{ env.GHA_URL }})
 
       - name: Generate check
         uses: LouisBrunner/checks-action@v2.0.0
@@ -82,7 +82,7 @@ jobs:
           refresh-message-position: true
           message-id: 'begin'
           message: |
-            **Build debug & Version bump:** :beginner: [Building ${{ env.solution }}.sln](${{ env.GHA_URL }})
+            **Build & Version bump:** :beginner: [Building ${{ env.solution }}.sln](${{ env.GHA_URL }})
 
       - name: Update PR with comment (build started solution)
         uses: mshick/add-pr-comment@v2
@@ -92,7 +92,7 @@ jobs:
           refresh-message-position: true
           message-id: 'begin'
           message: |
-            **Build debug & Version bump:** :alien: [Not building ${{ env.solution }}.sln](${{ env.GHA_URL }}), no source files changed.
+            **Build & Version bump:** :alien: [Not building ${{ env.solution }}.sln](${{ env.GHA_URL }}), no source files changed.
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -158,8 +158,8 @@ jobs:
           TERM: xterm
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"${{ env.sonar_key }}" /o:"$("${{ github.repository_owner }}".ToLower())" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="Tests\${{ env.solution }}.UnitTests\coverage.cobertura.xml"
-          msbuild "${{ env.solution }}.sln" /p:Configuration=Debug -verbosity:detailed -flp1:"logfile=msbuild.errors.log;errorsonly" -flp2:"logfile=msbuild.warnings.log;warningsonly"
-          coverlet "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Debug\${{ env.solution }}.UnitTests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
+          msbuild "${{ env.solution }}.sln" /p:Configuration=Release -verbosity:normal -flp1:"logfile=msbuild.errors.log;errorsonly" -flp2:"logfile=msbuild.warnings.log;warningsonly"
+          coverlet "Tests\${{ env.solution }}.UnitTests\bin\Release\${{ env.solution }}.UnitTests.dll" -t "vstest.console.exe" -a "Tests\${{ env.solution }}.UnitTests\bin\Release\${{ env.solution }}.UnitTests.dll" -o "Tests\${{ env.solution }}.UnitTests\\" -f cobertura
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
       
       - name: Install DeepSource scanner
@@ -201,7 +201,7 @@ jobs:
           refresh-message-position: true
           message-id: 'version'
           message: |
-            **Build debug & Version bump:** :dart: [Build succeeded](${{ env.GHA_URL }}) - New version: ${{ env.version }}
+            **Build & Version bump:** :dart: [Build succeeded](${{ env.GHA_URL }}) - New version: ${{ env.version }}
 
       - name: Set check as successfully before new commit
         uses: LouisBrunner/checks-action@v2.0.0
@@ -253,7 +253,7 @@ jobs:
           refresh-message-position: true
           message-id: 'final'
           message: |
-            **Build debug & Version bump:** :white_check_mark: [Successfully builded and patched](${{ env.GHA_URL }}) **${{ env.solution }}.sln**.
+            **Build & Version bump:** :white_check_mark: [Successfully builded and patched](${{ env.GHA_URL }}) **${{ env.solution }}.sln**.
             
             **Version:** :hash: ${{ env.version }}
             **Warnings:** :warning:
@@ -261,14 +261,14 @@ jobs:
             ${{ steps.warnings.outputs.contents }}
             ```
           message-failure: |
-            **Build debug & Version bump:** :x: [Failed](${{ env.GHA_URL }})
+            **Build & Version bump:** :x: [Failed](${{ env.GHA_URL }})
 
             **Errors:** :no_entry:
             ```
             ${{ steps.errors.outputs.contents }}
             ```
           message-cancelled: |
-            **Build debug & Version bump:** :o: [Cancelled](${{ env.GHA_URL }})
+            **Build & Version bump:** :o: [Cancelled](${{ env.GHA_URL }})
 
       - name: Set check as successfully after a new commit
         uses: LouisBrunner/checks-action@v2.0.0
