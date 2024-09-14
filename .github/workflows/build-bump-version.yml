@@ -59,6 +59,9 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
           ref: ${{ github.event.pull_request.head.ref }}
 
+      - name: Run the action
+        uses: guibranco/github-infisical-secrets-check-action@v1.0.0
+
       - name: Check for changes in Src or .github/workflows directory
         uses: dorny/paths-filter@v3
         id: changes
