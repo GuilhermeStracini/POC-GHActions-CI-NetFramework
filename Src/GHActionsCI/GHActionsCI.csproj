@@ -116,6 +116,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets'))" />
     <Error Condition="!Exists('..\..\packages\MSBuild.Version.Target.4.0.111\build\MSBuild.Version.Target.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MSBuild.Version.Target.4.0.111\build\MSBuild.Version.Target.targets'))" />
+    <Error Condition="!Exists('../packages/MSBuild.Version.Target.4.0.114/Build/MSBuild.Version.Target.targets')" Text="$([System.String]::Format('$(ErrorText)', '../packages/MSBuild.Version.Target.4.0.114/Build/MSBuild.Version.Target.targets'))" />
   </Target>
   <Import Project="..\..\packages\MSBuild.Version.Target.4.0.111\build\MSBuild.Version.Target.targets" Condition="Exists('..\..\packages\MSBuild.Version.Target.4.0.111\build\MSBuild.Version.Target.targets')" />
+  <Import Project="../packages/MSBuild.Version.Target.4.0.114/Build/MSBuild.Version.Target.targets" Condition="Exists('../packages/MSBuild.Version.Target.4.0.114/Build/MSBuild.Version.Target.targets')" />
 </Project>
