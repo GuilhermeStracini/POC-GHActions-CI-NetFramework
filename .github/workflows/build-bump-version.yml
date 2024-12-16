@@ -180,14 +180,14 @@ jobs:
           echo "version=$(type Src/${{ env.projectPath }}/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
       
       - name: Read warnings.txt
-        uses: guibranco/github-file-reader-action-v2@v2.2.718
+        uses: guibranco/github-file-reader-action-v2@v2.2.720
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         id: warnings
         with:
          path: msbuild.warnings.log
 
       - name: Read errors.txt        
-        uses: guibranco/github-file-reader-action-v2@v2.2.718
+        uses: guibranco/github-file-reader-action-v2@v2.2.720
         if: failure() && (steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch')
         id: errors
         with:
