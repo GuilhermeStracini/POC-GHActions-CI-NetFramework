@@ -4,7 +4,7 @@
 // Created          : 19/01/2023
 //
 // Last Modified By : Guilherme Branco Stracini
-// Last Modified On : 23/03/2023
+// Last Modified On : 21/07/2025
 // ***********************************************************************
 // <copyright file="AssemblyInfo.cs" company="Guilherme Branco Stracini ME">
 //     Copyright ©  2020
