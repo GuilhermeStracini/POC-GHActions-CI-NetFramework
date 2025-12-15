@@ -102,7 +102,7 @@ jobs:
           java-version: 21
 
       - name: Cache SonarCloud packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           path: ~\sonar\cache
@@ -112,7 +112,7 @@ jobs:
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
