@@ -36,8 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CrispyWaffle, Version=10.0.1085.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\packages\CrispyWaffle.10.0.1085\lib\netstandard2.0\CrispyWaffle.dll</HintPath>
+    <Reference Include="CrispyWaffle, Version=10.0.1093.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\CrispyWaffle.10.0.1093\lib\netstandard2.0\CrispyWaffle.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=10.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
