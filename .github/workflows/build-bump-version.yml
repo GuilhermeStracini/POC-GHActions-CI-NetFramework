@@ -36,7 +36,7 @@ jobs:
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Update PR with comment (build started)
-        uses: mshick/add-pr-comment@v2
+        uses: mshick/add-pr-comment@v3
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
           refresh-message-position: true
@@ -75,7 +75,7 @@ jobs:
           echo "sonar_key=$("${{ github.repository }}" -replace "/","_")" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Update PR with comment (build started solution)
-        uses: mshick/add-pr-comment@v2
+        uses: mshick/add-pr-comment@v3
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
@@ -85,7 +85,7 @@ jobs:
             **Build debug & Version bump:** :beginner: [Building ${{ env.solution }}.sln](${{ env.GHA_URL }})
 
       - name: Update PR with comment (build started solution)
-        uses: mshick/add-pr-comment@v2
+        uses: mshick/add-pr-comment@v3
         if: steps.changes.outputs.src == 'false'
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
@@ -194,7 +194,7 @@ jobs:
          path: msbuild.errors.log
 
       - name: Update PR with comment (version)
-        uses: mshick/add-pr-comment@v2
+        uses: mshick/add-pr-comment@v3
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
@@ -246,7 +246,7 @@ jobs:
         run: .\deepsource report --analyzer test-coverage --key csharp --value-file "Tests\${{ env.solution }}.UnitTests\coverage.cobertura.xml"
 
       - name: Update PR with comment
-        uses: mshick/add-pr-comment@v2
+        uses: mshick/add-pr-comment@v3
         if: always() && (steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch')
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
