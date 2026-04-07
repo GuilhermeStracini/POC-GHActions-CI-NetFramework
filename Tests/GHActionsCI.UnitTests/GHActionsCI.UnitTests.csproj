@@ -5,8 +5,8 @@
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
 >
   <Import
-    Project="..\..\packages\NUnit.4.4.0\build\NUnit.props"
-    Condition="Exists('..\..\packages\NUnit.4.4.0\build\NUnit.props')"
+    Project="..\..\packages\NUnit.4.5.1\build\NUnit.props"
+    Condition="Exists('..\..\packages\NUnit.4.5.1\build\NUnit.props')"
   />
   <Import
     Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
@@ -50,12 +50,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
-      <HintPath>..\..\packages\NUnit.4.4.0\lib\net462\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=4.5.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
+      <HintPath>..\..\packages\NUnit.4.5.1\lib\net462\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nunit.framework.legacy, Version=4.4.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
-      <HintPath>..\..\packages\NUnit.4.4.0\lib\net462\nunit.framework.legacy.dll</HintPath>
+    <Reference Include="nunit.framework.legacy, Version=4.5.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
+      <HintPath>..\..\packages\NUnit.4.5.1\lib\net462\nunit.framework.legacy.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -100,21 +100,21 @@
     Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')"
   />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import
+    Project="..\..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets"
+    Condition="Exists('..\..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets')"
+  />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error
-      Condition="!Exists('..\..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')"
-      Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets'))"
+      Condition="!Exists('..\..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets')"
+      Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets'))"
     />
     <Error
-      Condition="!Exists('..\..\packages\NUnit.4.4.0\build\NUnit.props')"
-      Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit.4.4.0\build\NUnit.props'))"
+      Condition="!Exists('..\..\packages\NUnit.4.5.1\build\NUnit.props')"
+      Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit.4.5.1\build\NUnit.props'))"
     />
   </Target>
-  <Import
-    Project="..\..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets"
-    Condition="Exists('..\..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')"
-  />
 </Project>
