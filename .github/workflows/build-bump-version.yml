@@ -30,13 +30,13 @@ jobs:
 
       - name: Generate a token
         id: generate_token
-        uses: tibdex/github-app-token@v2.1.0
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Update PR with comment (build started)
-        uses: mshick/add-pr-comment@v3
+        uses: mshick/add-pr-comment@ec328af66588ab8f77cdeb2c264f14aba45bbf59 # v3
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
           refresh-message-position: true
@@ -45,7 +45,7 @@ jobs:
             **Build debug & Version bump:** :beginner: [Build started](${{ env.GHA_URL }})
 
       - name: Generate check
-        uses: LouisBrunner/checks-action@v3.1.0
+        uses: LouisBrunner/checks-action@937cbbcde3259005b50746dc91cde29098aac2ff # v3.1.0
         id: generate_check
         if: always()
         with:
@@ -54,13 +54,13 @@ jobs:
           status: 'in_progress'
 
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           token: ${{ steps.generate_token.outputs.token }}
           ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Check for changes in Src or .github/workflows directory
-        uses: dorny/paths-filter@v4
+        uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4
         id: changes
         with:
           filters: |
@@ -75,7 +75,7 @@ jobs:
           echo "sonar_key=$("${{ github.repository }}" -replace "/","_")" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Update PR with comment (build started solution)
-        uses: mshick/add-pr-comment@v3
+        uses: mshick/add-pr-comment@ec328af66588ab8f77cdeb2c264f14aba45bbf59 # v3
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
@@ -85,7 +85,7 @@ jobs:
             **Build debug & Version bump:** :beginner: [Building ${{ env.solution }}.sln](${{ env.GHA_URL }})
 
       - name: Update PR with comment (build started solution)
-        uses: mshick/add-pr-comment@v3
+        uses: mshick/add-pr-comment@ec328af66588ab8f77cdeb2c264f14aba45bbf59 # v3
         if: steps.changes.outputs.src == 'false'
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
@@ -95,14 +95,14 @@ jobs:
             **Build debug & Version bump:** :alien: [Not building ${{ env.solution }}.sln](${{ env.GHA_URL }}), no source files changed.
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           distribution: 'temurin'
           java-version: 21
 
       - name: Cache SonarCloud packages
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           path: ~\sonar\cache
@@ -112,7 +112,7 @@ jobs:
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
@@ -126,7 +126,7 @@ jobs:
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
 
       - name: Add MSBuild to PATH
-        uses: microsoft/setup-msbuild@v3
+        uses: microsoft/setup-msbuild@30375c66a4eea26614e0d39710365f22f8b0af57 # v3
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           msbuild-architecture: x64
@@ -134,14 +134,14 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
       - name: Setup Nuget
-        uses: nuget/setup-nuget@v4
+        uses: nuget/setup-nuget@fd55a6f3b34392fa83fde1454582407d8c714123 # v4
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
       - name: Setup VSTest
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
-        uses: darenm/Setup-VSTest@v1.3
+        uses: darenm/Setup-VSTest@3a16d909a1f3bbc65b52f8270d475d905e7d3e44 # v1.3
 
       - name: DotNet Tool Install Coverlet
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
@@ -180,21 +180,21 @@ jobs:
           echo "version=$(type Src/${{ env.projectPath }}/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
       
       - name: Read warnings.txt
-        uses: guibranco/github-file-reader-action-v2@v2.3.41
+        uses: guibranco/github-file-reader-action-v2@4a6c606a0c3c8e6786984bde316e0514ed8c442a # v2.3.51
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         id: warnings
         with:
          path: msbuild.warnings.log
 
       - name: Read errors.txt        
-        uses: guibranco/github-file-reader-action-v2@v2.3.41
+        uses: guibranco/github-file-reader-action-v2@4a6c606a0c3c8e6786984bde316e0514ed8c442a # v2.3.51
         if: failure() && (steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch')
         id: errors
         with:
          path: msbuild.errors.log
 
       - name: Update PR with comment (version)
-        uses: mshick/add-pr-comment@v3
+        uses: mshick/add-pr-comment@ec328af66588ab8f77cdeb2c264f14aba45bbf59 # v3
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
@@ -204,7 +204,7 @@ jobs:
             **Build debug & Version bump:** :dart: [Build succeeded](${{ env.GHA_URL }}) - New version: ${{ env.version }}
 
       - name: Set check as successfully before new commit
-        uses: LouisBrunner/checks-action@v3.1.0
+        uses: LouisBrunner/checks-action@937cbbcde3259005b50746dc91cde29098aac2ff # v3.1.0
         if: success()
         with:
           token: ${{ steps.generate_token.outputs.token }}
@@ -214,7 +214,7 @@ jobs:
             {"summary":"New version: ${{ env.version }}"}
 
       - name: Set check as the action required before new commit
-        uses: LouisBrunner/checks-action@v3.1.0
+        uses: LouisBrunner/checks-action@937cbbcde3259005b50746dc91cde29098aac2ff # v3.1.0
         if: failure()
         with:
           token: ${{ steps.generate_token.outputs.token }}
@@ -246,7 +246,7 @@ jobs:
         run: .\deepsource report --analyzer test-coverage --key csharp --value-file "Tests\${{ env.solution }}.UnitTests\coverage.cobertura.xml"
 
       - name: Update PR with comment
-        uses: mshick/add-pr-comment@v3
+        uses: mshick/add-pr-comment@ec328af66588ab8f77cdeb2c264f14aba45bbf59 # v3
         if: always() && (steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch')
         with:
           repo-token: ${{ steps.generate_token.outputs.token }}
@@ -271,7 +271,7 @@ jobs:
             **Build debug & Version bump:** :o: [Cancelled](${{ env.GHA_URL }})
 
       - name: Set check as successfully after a new commit
-        uses: LouisBrunner/checks-action@v3.1.0
+        uses: LouisBrunner/checks-action@937cbbcde3259005b50746dc91cde29098aac2ff # v3.1.0
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           token: ${{ steps.generate_token.outputs.token }}
@@ -281,7 +281,7 @@ jobs:
             {"summary":"New version: ${{ env.version }}"}
 
       - name: Update check run status (Success)
-        uses: guibranco/github-status-action-v2@v1.2.4
+        uses: guibranco/github-status-action-v2@77639353504055053524efa7a3719aaf0b731ce9 # v1.2.4
         if: success() && (steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch')
         with:
           authToken: ${{ steps.generate_token.outputs.token }}
@@ -292,7 +292,7 @@ jobs:
           target_url: ${{ env.GHA_URL }}
 
       - name: Update check run status (Failure or Cancellation)
-        uses: guibranco/github-status-action-v2@v1.2.4
+        uses: guibranco/github-status-action-v2@77639353504055053524efa7a3719aaf0b731ce9 # v1.2.4
         if: failure() || cancelled()
         with:
           authToken: ${{ steps.generate_token.outputs.token }}
