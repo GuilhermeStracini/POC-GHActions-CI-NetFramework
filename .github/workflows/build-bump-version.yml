@@ -95,7 +95,7 @@ jobs:
             **Build debug & Version bump:** :alien: [Not building ${{ env.solution }}.sln](${{ env.GHA_URL }}), no source files changed.
 
       - name: Set up Java
-        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         with:
           distribution: 'temurin'
@@ -180,14 +180,14 @@ jobs:
           echo "version=$(type Src/${{ env.projectPath }}/Properties/Version.txt)" | Out-File -FilePath $env:GITHUB_ENV -Append
       
       - name: Read warnings.txt
-        uses: guibranco/github-file-reader-action-v2@eefe4bd4c5c839953753f09141a39ca3ecd8039e # v2.3.57
+        uses: guibranco/github-file-reader-action-v2@7d920eb46236e56dbc741025d08c0e994eead008 # v2.3.59
         if: steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch'
         id: warnings
         with:
          path: msbuild.warnings.log
 
       - name: Read errors.txt        
-        uses: guibranco/github-file-reader-action-v2@eefe4bd4c5c839953753f09141a39ca3ecd8039e # v2.3.57
+        uses: guibranco/github-file-reader-action-v2@7d920eb46236e56dbc741025d08c0e994eead008 # v2.3.59
         if: failure() && (steps.changes.outputs.src == 'true' || github.event_name == 'workflow_dispatch')
         id: errors
         with:
